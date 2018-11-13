@@ -2,7 +2,6 @@ package pl.training.appium;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,6 +16,7 @@ public class ExampleTests {
     private final static File APP_ARCHIVE = new File("ApiDemos-debug.apk");
     private final static String TEST_DEVICE_NAME = "Nexus";
     private final static String APPIUM_SERVER_URL = "http://127.0.0.1:4723/wd/hub";
+    private String testNetwork = "Test network";
 
     /**
      * ustawiamy połaczenie do anroida (symulatora) - ta jest instalowana
@@ -50,11 +50,12 @@ public class ExampleTests {
         driver.findElementByXPath("//android.widget.TextView[@text='Preference']").click();
         driver.findElementByXPath("//android.widget.TextView[@text='3. Preference dependencies']").click();
         driver.findElementById("android:id/checkbox").click();
+        Assert.assertEquals(driver.findElementById("android:id/checkbox").getAttribute("checked"), "true");
         driver.findElementsByClassName("android.widget.RelativeLayout").get(1).click();
-        driver.findElementByClassName("android.widget.EditText").sendKeys("Test network");
+        driver.findElementByClassName("android.widget.EditText").sendKeys(testNetwork);
         driver.findElementsByClassName("android.widget.Button").get(1).click();
         driver.findElementsByClassName("android.widget.RelativeLayout").get(1).click();
-        Assert.assertEquals("Test network", driver.findElementByClassName("android.widget.EditText").getText());
+        Assert.assertEquals(testNetwork, driver.findElementByClassName("android.widget.EditText").getText());
 
     }
 }
