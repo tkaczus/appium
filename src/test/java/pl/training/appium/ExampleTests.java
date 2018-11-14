@@ -109,12 +109,24 @@ public class ExampleTests {
     @Test
     public void shouldScrool() {
         driver.findElementByXPath("//android.widget.TextView[@text='Views']").click();
-        driver.findElementsByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Switches\"))");
+//        scroolToView("Switches");
         driver.findElementByXPath("//android.widget.TextView[@text='Switches']").click();
         driver.findElementByXPath("//android.widget.Switch[@text='Default is on ON']").click();
 
         Assert.assertEquals(driver.findElementByXPath("//android.widget.Switch[@text='Default is on OFF']").getAttribute("checked"), "false");
     }
 
+    private AndroidElement scroolToView(AndroidElement element) {
+        driver.findElementByAndroidUIAutomator(String.format("new UiScrollable(new UiSelector()).scrollIntoView(text(\"%s\"))", element.getText()));
+        return element;
+    }
+
+    @Test
+    public void shouldVerifyWebView() {
+        MainView mainView = new MainView(driver);
+        scroolToView(mainView.views).click();
+        scroolToView(mainView.webView).click();
+
+    }
 
 }
